@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPIOServiceConnector", "GPIOServiceConnector.vcxproj", "{EE933DEB-CD73-4080-8BDA-BF95517AB28F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimeConversion", "..\TimeConversion\TimeConversion\TimeConversion.vcxitems", "{5A207D16-AC3F-4E21-A7FB-58F53B2126C8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamSocketComm", "..\StreamSocketComm\StreamSocketComm.vcxitems", "{C90BD8E0-7543-4A02-8A0C-C8A7A2292632}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPIODriver", "..\GPIODriver\GPIODriver.vcxitems", "{0EF219F8-50D1-4FAA-9FB4-30A1C357B92A}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\GPIODriver\GPIODriver.vcxitems*{0ef219f8-50d1-4faa-9fb4-30a1c357b92a}*SharedItemsImports = 9
+		..\TimeConversion\TimeConversion\TimeConversion.vcxitems*{5a207d16-ac3f-4e21-a7fb-58f53b2126c8}*SharedItemsImports = 9
+		..\StreamSocketComm\StreamSocketComm.vcxitems*{c90bd8e0-7543-4a02-8a0c-c8a7a2292632}*SharedItemsImports = 9
+		..\GPIODriver\GPIODriver.vcxitems*{ee933deb-cd73-4080-8bda-bf95517ab28f}*SharedItemsImports = 4
+		..\StreamSocketComm\StreamSocketComm.vcxitems*{ee933deb-cd73-4080-8bda-bf95517ab28f}*SharedItemsImports = 4
+		..\TimeConversion\TimeConversion\TimeConversion.vcxitems*{ee933deb-cd73-4080-8bda-bf95517ab28f}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|ARM.Build.0 = Debug|ARM
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|ARM64.Build.0 = Debug|ARM64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|x64.ActiveCfg = Debug|x64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|x64.Build.0 = Debug|x64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|x86.ActiveCfg = Debug|Win32
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Debug|x86.Build.0 = Debug|Win32
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|ARM.ActiveCfg = Release|ARM
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|ARM.Build.0 = Release|ARM
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|ARM64.ActiveCfg = Release|ARM64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|ARM64.Build.0 = Release|ARM64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|x64.ActiveCfg = Release|x64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|x64.Build.0 = Release|x64
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|x86.ActiveCfg = Release|Win32
+		{EE933DEB-CD73-4080-8BDA-BF95517AB28F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BEB2CAF-24AA-4CD2-BC6A-218408B3C4B0}
+	EndGlobalSection
+EndGlobal

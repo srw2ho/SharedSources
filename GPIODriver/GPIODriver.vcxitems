@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{0ef219f8-50d1-4faa-9fb4-30a1c357b92a}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GPIOEventPackageQueue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GPIOInOut.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GPIOPin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GPIODriver.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GPIODriverExportDefs.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GPIOEventPackageQueue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GPIOInOut.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GPIOPin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+  </ItemGroup>
+</Project>

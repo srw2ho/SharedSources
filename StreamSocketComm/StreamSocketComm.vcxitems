@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{c90bd8e0-7543-4a02-8a0c-c8a7a2292632}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketChunkReceiver.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketHelpers.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketListener.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketChunkReceiver.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketEventSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketHelpers.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketListener.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StreamSocketCommExports.h" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/BME280Driver/ARM
+/BME280Driver/Debug
+/BME280Driver/x64
+/EmailSupport/bin
+/EmailSupport/obj
+/GPIOServiceConnector/.vs/GPIOServiceConnector/v15
+/GPIOServiceConnector/ARM
+/GPIOServiceConnector/Debug
+/GPIOServiceConnector/x64
+/SSD1306Display/bin/ARM
+/SSD1306Display/obj
+/StreamSocketComm/.vs/StreamSocketComm/v15
+/TimeConversion/.vs/TimeConversion/v15
