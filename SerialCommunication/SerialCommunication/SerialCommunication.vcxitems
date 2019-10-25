@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{fe2399d8-8fbe-4f4f-b46a-4d5400f2b9f0}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScanSerialDevices.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SerialChunkReceiver.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SerialCom.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SerialHelpers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScanSerialDevices.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialChunkReceiver.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialCom.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialEventSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialHelpers.h" />
+  </ItemGroup>
+</Project>
