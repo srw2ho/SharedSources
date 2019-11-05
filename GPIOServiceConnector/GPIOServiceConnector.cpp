@@ -341,6 +341,7 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 	double InitValue;
 	double SetValue = -1;
 	double PinValue = -1;
+	double PulseTime = -1;
 	std::wstring s;
 	std::wstring delim;
 
@@ -385,6 +386,8 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 						std::vector<std::wstring> Keyarray = GPIODriver::splitintoArray(working_keyValue, L";");
 						//         string keyValue = string.Format("PinName={0}; Typ={1}; PinNumber:{2}; InitValue={3}; SetValue={4}", m_GPIOName, m_GPIOTyp.ToString(), m_PinNumber, m_InitValue,m_SetValue-SetValue); ;
 						std::vector<std::wstring> valueArr;
+		
+
 
 						for (size_t i = 0; i < Keyarray.size(); i++) {
 							std::wstring Keys = Keyarray.at(i);
@@ -414,6 +417,9 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 								else if (Key == L"PinValue") {
 									PinValue = _wtof(key_Value.c_str());
 								}
+								else if (Key == L"PulseTime") {
+									PulseTime = _wtof(key_Value.c_str());
+								}
 								
 
 								if ((SetValue != -1) && (PinNumber != -1) && (PinValue!=-1) && (GPIOTyp.size() > 0)) {
@@ -426,6 +432,9 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 									}
 									else if (GPIOTyp == L"output") {
 										pPin = new GPIODriver::GPIOOutputPin(m_pGPIOEventPackageQueue, PinNumber, (InitValue > 0) ? 0 : 1);
+										if (PulseTime >= 0) {
+											pPin->setPulseTimeinms(PulseTime);
+										}
 										pPin->setActivateOutputProcessing(true);
 									}
 									if (pPin != nullptr) {
@@ -435,7 +444,7 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 										this->m_outputconfigoptions->Insert(key, dynamic_cast<PropertyValue^>(PropertyValue::CreateDouble(PinValue)));
 
 									}
-
+									PulseTime = -1;
 									SetValue = -1;
 									PinNumber = -1;
 									PinValue = -1;
@@ -566,6 +575,7 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 			std::wstring  key_Value;
 			std::wstring  Key;
 			double SetValue;
+			double PulseTime;
 			for (size_t i = 0; i < Keyarray.size(); i++) {
 				std::wstring Keys = Keyarray.at(i);
 				//	GPIODriver::remove(Keys, (L" ")[0]);
@@ -574,6 +584,10 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 
 					key_Value = valueArr.at(1);
 					Key = valueArr.at(0);
+					if (Key == L"PulseTime") {
+						PulseTime = _wtof(key_Value.c_str());
+						pGPIOPin->setPulseTimeinms(PulseTime);
+					}
 					if (Key == L"SetValue") {
 						SetValue = _wtof(key_Value.c_str());
 						if (SetValue != pGPIOPin->getSetValue()) {
