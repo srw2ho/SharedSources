@@ -432,9 +432,10 @@ bool GPIOConnector::InitGPIOOutput(Windows::Foundation::Collections::IPropertySe
 									}
 									else if (GPIOTyp == L"output") {
 										pPin = new GPIODriver::GPIOOutputPin(m_pGPIOEventPackageQueue, PinNumber, (InitValue > 0) ? 0 : 1);
-										if (PulseTime >= 0) {
-											pPin->setPulseTimeinms(PulseTime);
-										}
+										// beim Initialisieren keine Pulse-Time beachten
+										//if (PulseTime >= 0) {
+										//	pPin->setPulseTimeinms(PulseTime);
+										//}
 										pPin->setActivateOutputProcessing(true);
 									}
 									if (pPin != nullptr) {

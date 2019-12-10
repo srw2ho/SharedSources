@@ -449,6 +449,7 @@ namespace GPIODriver
 		if (InitPinValue > 1)InitPinValue = 1;
 
 		m_InitValue = InitPinValue;
+		m_PinValue = InitPinValue;
 		m_PinNumber = PinNo;
 		m_Typ = GPIOTyp::input;
 
