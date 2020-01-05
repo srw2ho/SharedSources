@@ -210,6 +210,7 @@ namespace SerialCommunication {
 		m_acceptingData = false;
 		m_ChunkProcessing = 0;
 		m_ReadBufferLen = 640;
+	
 
 	}
 	void SerialChunkReceiver::CancelAsyncSocketOperation() {

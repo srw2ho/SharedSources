@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerialCommunication", "SerialCommunication\SerialCommunication.vcxitems", "{FE2399D8-8FBE-4F4F-B46A-4D5400F2B9F0}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {343B128D-A7A4-4483-893C-1ECF3081470B}
+	EndGlobalSection
+EndGlobal
