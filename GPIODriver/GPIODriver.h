@@ -2,26 +2,51 @@
 
 #include <collection.h>
 #include <ppltasks.h>
+#include <cvt/wstring>
+#include <codecvt>
 namespace GPIODriver
 {
-
+	
 	inline char* StringtoAscIIChars(Platform::String^stringRT) {
 
-		std::wstring fooW(stringRT->Begin());
-		std::string fooA(fooW.begin(), fooW.end());
+		/*
+		const std::wstring fooW(stringRT->Begin());
+		const std::string fooA(fooW.begin(),  fooW.end());
+
+		int bufferSize = WideCharToMultiByte(CP_UTF8, 0, fooW.c_str(), -1, nullptr, 0, NULL, NULL);
+		auto utf8 = std::make_unique<char[]>(bufferSize);
+		if (0 == WideCharToMultiByte(CP_UTF8, 0, fooW.c_str(), -1, utf8.get(), bufferSize, NULL, NULL))
+			throw std::exception("Can't convert string to UTF8");
+*/
+		//Platform::String^ fooRT = "foo";
+		stdext::cvt::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+		std::string stringUtf8 = convert.to_bytes(stringRT->Data());
+		const char* rawCstring = stringUtf8.c_str();
+
+		size_t len = stringUtf8.length() + sizeof(char);
+		char* charStr = new char[len];
+		memcpy(charStr, stringUtf8.c_str(), len);
+
+		/*
 		size_t len = fooA.length() + sizeof(char);
 		char* charStr = new char[len];
 		memcpy(charStr, fooA.c_str(), len);
-
+		*/
 		return charStr;
 
 	}
+	
 
 	inline std::string PlatFormStringtoStdString(Platform::String^stringRT) {
 
-		std::wstring fooW(stringRT->Begin());
-		std::string fooA(fooW.begin(), fooW.end());
-		return fooA;
+		//const std::wstring fooW(stringRT->Begin());
+		//const std::string fooA(fooW.begin(),  fooW.end());
+
+		stdext::cvt::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+		std::string stringUtf8 = convert.to_bytes(stringRT->Data());
+		//const char* rawCstring = stringUtf8.c_str();
+
+		return stringUtf8;
 
 	}
 
