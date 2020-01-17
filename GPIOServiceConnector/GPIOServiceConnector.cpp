@@ -577,6 +577,7 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 			std::wstring  Key;
 			double SetValue;
 			double PulseTime = 0;
+			bool IsFlankActive = true;
 			for (size_t i = 0; i < Keyarray.size(); i++) {
 				std::wstring Keys = Keyarray.at(i);
 				//	GPIODriver::remove(Keys, (L" ")[0]);
@@ -588,15 +589,20 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 					if (Key == L"PulseTime") {
 						PulseTime = _wtof(key_Value.c_str());
 					}
+					if (Key == L"IsFlankActive") {
+						IsFlankActive = (_wtof(key_Value.c_str()) > 0);
+	//					wistringstream(key_Value.c_str()) >> std::boolalpha >> IsFlankActive;
+					}
 					if (Key == L"SetValue") {
 						SetValue = _wtof(key_Value.c_str());
 						if (SetValue != pGPIOPin->getSetValue()) {
 							pGPIOPin->setPulseTimeinms(PulseTime);
 							pGPIOPin->setSetValue(SetValue);
-
-							Platform::String^ state = pGPIOPin->GetGPIOPinClientSendCmd();
-							if (state->Length() > 0) {
-								_state.append(state->Data());
+							if (IsFlankActive) {
+								Platform::String^ state = pGPIOPin->GetGPIOPinClientSendCmd();
+								if (state->Length() > 0) {
+									_state.append(state->Data());
+								}
 							}
 
 						}
