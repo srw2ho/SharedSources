@@ -28,13 +28,13 @@ namespace EmailSupport
         public eMailing()
         {
             m_Receipients = new List<string>();
-            m_server = "xyz";
+            m_server = "xyz.de";
             m_port = 465;
             m_ssl = true;
-            m_userName ="xyz";
-            m_password = "xyz";
+            m_userName ="John.Do.xyz";
+            m_password = "xxxxx";
             m_MailSended = false;
-            m_Receipients.Add("xyz");
+            m_Receipients.Add("John.Do.xyz");
             m_Receipients.Add("");
             m_Receipients.Add("");
             m_Receipients.Add("");
