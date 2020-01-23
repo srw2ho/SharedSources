@@ -28,13 +28,13 @@ namespace EmailSupport
         public eMailing()
         {
             m_Receipients = new List<string>();
-            m_server = "smtp.kabelmail.de";
+            m_server = "xyz";
             m_port = 465;
             m_ssl = true;
-            m_userName ="wilschneider@kabelmail.de";
-            m_password = "salutrans";
+            m_userName ="xyz";
+            m_password = "xyz";
             m_MailSended = false;
-            m_Receipients.Add("wilschneider@kabelmail.de");
+            m_Receipients.Add("xyz");
             m_Receipients.Add("");
             m_Receipients.Add("");
             m_Receipients.Add("");
