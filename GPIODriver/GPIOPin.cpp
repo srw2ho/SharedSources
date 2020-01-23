@@ -59,7 +59,7 @@ namespace GPIODriver
 
 #endif
 
-		m_PinName.empty();
+		m_PinName.clear();
 
 		m_PinValue = 0;
 		m_SetValue = 0;
