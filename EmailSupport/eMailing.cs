@@ -28,7 +28,7 @@ namespace EmailSupport
         public eMailing()
         {
             m_Receipients = new List<string>();
-            m_server = "smtp.kabelmail.de";
+            m_server = "xyz.de";
             m_port = 465;
             m_ssl = true;
             m_userName ="John.Do.xyz";
