@@ -18,6 +18,7 @@ namespace BME280Driver
 
 		bme280_delay_fptr_t m_delay_ms;	// callback funktion fo winIoT-delay-Function
 
+		uint32_t m_req_delay;
 	public:
 		BME280IoTDriver(uint8_t dev_id);
 		virtual ~BME280IoTDriver();
