@@ -15,3 +15,5 @@
 /SSD1306Display/obj
 /StreamSocketComm/.vs/StreamSocketComm/v15
 /TimeConversion/.vs/TimeConversion/v15
+/.vs
+/GPIOServiceConnector/.vs/GPIOServiceConnector/v16
