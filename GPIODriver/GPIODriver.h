@@ -4,6 +4,10 @@
 #include <ppltasks.h>
 #include <cvt/wstring>
 #include <codecvt>
+//#define GPIOCLIENT_USING 0
+
+using namespace Windows::Storage::Streams;
+
 namespace GPIODriver
 {
 	
@@ -222,6 +226,39 @@ namespace GPIODriver
 
 
 	}
+
+	inline Windows::Storage::Streams::IBuffer^ createPayloadBufferfromSendData(Platform::String^ stringinfo)
+	{
+		DataWriter^ writer = ref new DataWriter();
+		// Write first the length of the string a UINT32 value followed up by the string. The operation will just store 
+		// the data locally.
+
+		writer->WriteUInt32(writer->MeasureString(stringinfo));
+		writer->WriteByte(0x55);	// CheckByte 1 for verification
+		writer->WriteByte(0x50);	// CheckByte 2 for Payload
+		writer->WriteString(stringinfo);
+
+
+		return writer->DetachBuffer();
+	}
+	
+	inline Windows::Storage::Streams::IBuffer^ createPayloadBufferfromMpackData(std::vector<char>& mpackdata) {
+		DataWriter^ writer = ref new DataWriter();
+		// Write first the length of the string a UINT32 value followed up by the string. The operation will just store 
+		// the data locally.
+
+		writer->WriteUInt32((unsigned int) mpackdata.size());
+		writer->WriteByte(0x55);	// CheckByte 1 for verification
+		writer->WriteByte(0x51);	// CheckByte 2 for Payload
+
+		Platform::Array<byte>^ arr = ref new Platform::Array<byte>((byte*)&mpackdata[0], (unsigned int)mpackdata.size());
+		writer->WriteBytes(arr);
+
+		return writer->DetachBuffer();
+
+
+	};
+
 
 
 }

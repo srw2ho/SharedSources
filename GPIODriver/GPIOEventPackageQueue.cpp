@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "GPIODriver.h"
 #include "GPIOEventPackageQueue.h"
+#include "GPIOPin.h"
+
 
 
 namespace GPIODriver
@@ -9,21 +11,29 @@ namespace GPIODriver
 	GPIOEventPackage::GPIOEventPackage()
 	{
 		m_PinNo = -1;
-		m_EventMsg = "";
+	//	m_EventMsg = "";
 		m_pAdditional = nullptr;
+		m_buf = nullptr;
 
 	}
-	GPIOEventPackage::GPIOEventPackage(int PinNo, Platform::String^ eventMessage, void* Additional)
+	//GPIOEventPackage::GPIOEventPackage(int PinNo, Platform::String^ eventMessage, void* Additional)
+	GPIOEventPackage::GPIOEventPackage(int PinNo, void* Additional)
 	{
 		m_PinNo = PinNo;
-		m_EventMsg = eventMessage;
+	//	m_EventMsg = eventMessage;
 		m_pAdditional = Additional;
+		m_buf = nullptr;
+	
 	}
 
 	int GPIOEventPackage::getPinNo() { return m_PinNo; };
 
-	Platform::String^ GPIOEventPackage::getEventMsg() { return m_EventMsg; };
+	//Platform::String^ GPIOEventPackage::getEventMsg() { return m_EventMsg; };
+	Windows::Storage::Streams::IBuffer^ GPIOEventPackage::getEventBuffer() { return m_buf; };
 
+	void GPIOEventPackage::setEventBuffer(Windows::Storage::Streams::IBuffer^ buf) {
+		m_buf = buf;
+	}
 
 	void* GPIOEventPackage::getAdditional()
 	{
@@ -34,7 +44,6 @@ namespace GPIODriver
 	{
 
 	}
-
 
 	GPIOEventPackageQueue::GPIOEventPackageQueue()
 	{
@@ -47,6 +56,7 @@ namespace GPIODriver
 			nullptr
 			//TEXT("WriteEvent")  // object name
 		);
+		m_UseMpack = false;
 	}
 
 
@@ -74,16 +84,55 @@ namespace GPIODriver
 	};
 
 
+
+
+
 	void GPIOEventPackageQueue::PushPacket(GPIOEventPackage* ppacket) {
-
-
 		this->Lock();
-		m_packetQueue->push_back(ppacket);
-		::SetEvent(m_hWriteEvent);
+
+
+		GPIOPin* pPin = (GPIOPin*)ppacket->getAdditional();
+		if (pPin != nullptr) {
+#if !GPIOCLIENT_USING
+			pPin->setTimeinNanos(getActualTimeinNanos());
+			if (m_UseMpack) {
+
+				std::vector<char> data(200);
+				size_t len = 0;
+				pPin->doPack(&data[0], &len);
+
+				if (len > 0) {
+					data.resize(len);
+					ppacket->setEventBuffer(createPayloadBufferfromMpackData(data));
+				}
+		}
+			else {
+				Platform::String^ message = pPin->GetGPIOPinCmd();
+
+				if (message->Length() > 0) {
+					// Sending to all connected clients
+					ppacket->setEventBuffer(createPayloadBufferfromSendData(message));
+				}
+			}
+
+#else
+
+#endif
+
+
+			m_packetQueue->push_back(ppacket);
+			::SetEvent(m_hWriteEvent);
+
+		}
+		else {
+			delete ppacket;
+		}
+
 
 		this->UnLock();
 
 	};
+
 	GPIOEventPackage* GPIOEventPackageQueue::PopPacket() {
 		GPIOEventPackage*pPacketRet = nullptr;
 		this->Lock();

@@ -20,6 +20,7 @@ namespace StreamSocketComm
 
 		static Windows::Storage::Streams::IBuffer^ createBufferfromSendData(Platform::String^ stringinfo);
 		static Windows::Storage::Streams::IBuffer^ createPayloadBufferfromSendData(Platform::String^ stringinfo);
+		static Windows::Storage::Streams::IBuffer^ createPayloadBufferfromMpackData(std::vector<char>& mpackdata);
 
 		static Platform::String^ StringFromAscIIChars(char* chars);
 	};

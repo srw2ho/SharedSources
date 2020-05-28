@@ -51,6 +51,8 @@ namespace GPIODriver
 
 
 		m_bInitialized = false;
+		m_UseMpack = false;
+
 	}
 
 	GPIOInOut::~GPIOInOut() {
@@ -58,6 +60,10 @@ namespace GPIODriver
 		DeleteCriticalSection(&m_CritLock);
 	}
 
+	void GPIOInOut::setUseMpack(bool value) {
+		m_UseMpack = value;
+		m_pGPIOEventPackageQueue->setUseMpack(value);
+	};
 
 	void GPIOInOut::UnLock() {
 
@@ -340,6 +346,113 @@ namespace GPIODriver
 	}
 
 
+	bool GPIOInOut::GetGPIMsgPackState(std::vector<char>& retdata) {
+	//	std::vector<char> retdata;
+
+		Lock();
+		for (size_t i = 0; i < m_GPIOs.size(); i++) {
+			auto pin = m_GPIOs.at(i);
+			std::vector<char> data(200);
+			size_t len = 0;
+			pin->doPack(&data[0], &len);
+			if (len > 0) {
+				data.resize(len);
+				retdata.insert(retdata.end(), data.begin(), data.end()); // note: we use different vectors here
+			}
+		}
+		UnLock();
+	
+
+		return (retdata.size()>0);
+	}
+
+
+	std::vector<char> GPIOInOut::GetGPIMsgPackStateByPinNr(int PinNr) {
+		std::vector<char> retdata(200);
+	
+		Lock();
+		GPIOPin* pPin = this->getGPIOPinByPinNr(PinNr);
+		if (pPin != nullptr) {
+			size_t len = 0;
+			pPin->doPack(&retdata[0], &len);
+			if (len > 0) {
+				retdata.resize(len);
+			}
+		}
+		UnLock();
+		return retdata;
+	}
+	
+
+	bool GPIOInOut::GetGPIClientMsPackSendState(std::vector<char>& retdata) {
+	
+		Lock();
+	
+		for (size_t i = 0; i < m_GPIOs.size(); i++) {
+			auto pin = m_GPIOs.at(i);
+			if (pin->getActivateOutputProcessing())
+			{
+				std::vector<char> data(200);
+				size_t len = 0;
+				pin->doPack(&data[0], &len);
+
+				if (len > 0) {
+					data.resize(len);
+					retdata.insert(retdata.end(), data.begin(), data.end()); // note: we use different vectors here
+				}
+			}
+
+		}
+		UnLock();
+		return (retdata.size() > 0) ;
+	}
+
+
+	Windows::Storage::Streams::IBuffer^ GPIOInOut::GetGPIStateBuf() {
+		Windows::Storage::Streams::IBuffer^ buf=nullptr;
+		Lock();
+		if (m_UseMpack) {
+			std::vector<char> retdata;
+			GetGPIMsgPackState(retdata);
+			if (retdata.size() > 0) {
+				buf = createPayloadBufferfromMpackData(retdata);
+			}
+		}
+		else {
+			Platform::String^ state = GetGPIState();
+			if (state->Length() > 0) {
+
+				buf = createPayloadBufferfromSendData(state);
+			}
+		}
+
+		UnLock();
+		return buf;
+	}
+
+	Windows::Storage::Streams::IBuffer^ GPIOInOut::GetGPIClientSendStateBuf() {
+		Windows::Storage::Streams::IBuffer^ buf=nullptr;
+		Lock();
+		if (m_UseMpack) {
+			std::vector<char> retdata;
+			GetGPIClientMsPackSendState(retdata);
+			if (retdata.size() > 0){
+				buf = createPayloadBufferfromMpackData(retdata);
+			}
+
+		}
+		else {
+			Platform::String^ state = GetGPIClientSendState();
+
+			if (state->Length() > 0) {
+				buf = createPayloadBufferfromSendData(state);
+			}
+
+		}
+
+		UnLock();
+		return buf;
+	}
 
 
 	Platform::String^ GPIOInOut::GetGPIClientSendState() {
@@ -596,6 +709,22 @@ namespace GPIODriver
 		UnLock();
 		return nullptr;
 	}
+	GPIOPin* GPIOInOut::getGPIOPinByPinNrandType(GPIODriver::GPIOTyp type, int Idx) {
+		GPIOPin* pRet = nullptr;
+		Lock();
+		for (size_t i = 0; i < m_GPIOs.size(); i++) {
+			auto pin = m_GPIOs.at(i);
+			if ((pin->getPinNumber() == Idx) && (pin->getGPIOTyp() == type)) {
+				UnLock();
+				return pin;
+			}
+		}
+		UnLock();
+		return nullptr;
+	}
+
+
+
 
 	void GPIOInOut::deleteAllGPIOPins() {
 		Lock();

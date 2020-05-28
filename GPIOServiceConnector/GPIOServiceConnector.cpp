@@ -34,7 +34,7 @@ GPIOConnector::GPIOConnector()
 
 	//  m_pBME280DataQueue = new WeatherStationData::BME280DataQueue();
 
-
+	this->m_GPIOClientInOut->setUseMpack(true);
 
 	m_bProcessingPackagesStarted = false;
 
@@ -485,7 +485,7 @@ return true;
 void GPIOServiceConnector::GPIOConnector::OnFailed(Platform::Object ^sender, Platform::Exception ^args)
 {// Trying to connect failed
 //	throw ref new Platform::NotImplementedException();
-	Platform::String^ err = ref new String();
+	Platform::String^ err = ref new Platform::String();
 	err = args->Message;
 	m_FailedConnectionCount = m_FailedConnectionCount + 1;
 	this->Failed(this, err);
@@ -521,7 +521,7 @@ void GPIOServiceConnector::GPIOConnector::OnstartStreaming(Platform::Object ^sen
 
 void GPIOServiceConnector::GPIOConnector::OnstopStreaming(Platform::Object ^sender, Platform::Exception ^exception)
 {
-	Platform::String^ err = ref new String();
+	Platform::String^ err = ref new Platform::String();
 	if (exception != nullptr) {
 		err = exception->Message;
 		m_FailedConnectionCount = m_FailedConnectionCount + 1;
@@ -551,7 +551,7 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 	//	double SetValue;
 	GPIODriver::GPIOPin* pGPIOPin;
 	std::wstring _state;
-
+	std::vector<Windows::Storage::Streams::IBuffer^> sendBuf;
 	//GPIOs  gPIOs;
 	//m_GPIOClientInOut->GetGPIPinsByTyp(gPIOs, GPIODriver::GPIOTyp::output);
 	for (size_t i = 0; i < m_Outputs.size(); i++) {
@@ -599,10 +599,17 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 							pGPIOPin->setPulseTimeinms(PulseTime);
 							pGPIOPin->setSetValue(SetValue);
 							if (IsFlankActive) {
-								Platform::String^ state = pGPIOPin->GetGPIOPinClientSendCmd();
+
+								Windows::Storage::Streams::IBuffer^ buf = pGPIOPin->GetGPIOPinClientSendCmdBuf(this->m_GPIOClientInOut->getUseMpack());
+								if (buf != nullptr) {
+							
+									sendBuf.push_back(buf);
+								}
+				
+		/*						Platform::String^ state = pGPIOPin->GetGPIOPinClientSendCmd();
 								if (state->Length() > 0) {
 									_state.append(state->Data());
-								}
+								}*/
 							}
 
 						}
@@ -615,14 +622,24 @@ void GPIOServiceConnector::GPIOConnector::OnMapChanged(Windows::Foundation::Coll
 		}
 
 	}
+	//std::vector<char> retdata;
+	//m_GPIOClientInOut->GetGPIClientMsPackSendState(retdata);x
+	//std::vector<byte> _retdata(retdata.begin(), retdata.end());
+
+	//bool  bok = m_GPIOClientInOut->parse_mpackObjects(_retdata);
 
 
-	if (_state.size() > 0) {
-		Platform::String^ state = ref new Platform::String(_state.c_str());
-
-		Windows::Storage::Streams::IBuffer^ buf = SocketHelpers::createPayloadBufferfromSendData(state);
+	for (size_t i = 0; i < sendBuf.size(); i++) {
+		Windows::Storage::Streams::IBuffer^ buf = sendBuf.at(i);
 		m_pSocketListener->SendDataToClients(buf);
 	}
+
+	//if (_state.size() > 0) {
+	//	Platform::String^ state = ref new Platform::String(_state.c_str());
+
+	//	Windows::Storage::Streams::IBuffer^ buf = SocketHelpers::createPayloadBufferfromSendData(state);
+	//	m_pSocketListener->SendDataToClients(buf);
+	//}
 
 
 }

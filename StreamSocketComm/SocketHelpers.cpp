@@ -51,6 +51,27 @@ namespace StreamSocketComm
 
 	}
 
+	Windows::Storage::Streams::IBuffer^ SocketHelpers::createPayloadBufferfromMpackData(std::vector<char>& mpackdata) {
+
+
+		DataWriter^ writer = ref new DataWriter();
+		// Write first the length of the string a UINT32 value followed up by the string. The operation will just store 
+		// the data locally.
+
+		writer->WriteUInt32(mpackdata.size());
+		writer->WriteByte(0x55);	// CheckByte 1 for verification
+		writer->WriteByte(0x51);	// CheckByte 2 for Payload
+
+		Platform::Array<byte>^ arr = ref new Platform::Array<byte>((byte*)&mpackdata[0], mpackdata.size());
+		writer->WriteBytes(arr);
+
+		return writer->DetachBuffer();
+
+
+	}
+
+
+
 	Windows::Storage::Streams::IBuffer^ SocketHelpers::createPayloadBufferfromSendData(Platform::String^ stringinfo) {
 
 

@@ -4,6 +4,10 @@
 
 #include "GPIOEventPackageQueue.h"
 
+#include "..\mpack\src\mpack\mpack-platform.h"
+#include "..\mpack\src\mpack\mpack.h"
+
+
 #include <map> 
 
 using namespace Platform;
@@ -15,11 +19,14 @@ namespace GPIODriver
 		undef		= -1,
 		input		= 0,
 		output		= 1,
-		PWM			= 2,
 		HC_SR04		= 3,
 		BME280		= 4,
-		inputShutdown = 5,
-		PWM9685 = 6,
+		BME680		= 5,
+		PWM_MT3620	= 7,
+		ADC_MT3620	= 8,
+		PWM			= 10,
+		inputShutdown = 11,
+		PWM9685 = 12
 	};
 
 
@@ -62,6 +69,11 @@ namespace GPIODriver
 		virtual bool doClientProcessing(); // Processs Client 
 
 		virtual void DiableValueChanged();
+
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
+
+		virtual Windows::Storage::Streams::IBuffer^ GetGPIOPinClientSendCmdBuf(bool doMpack);
 	protected:
 		void UnLock();
 		void Lock();
@@ -153,6 +165,9 @@ namespace GPIODriver
 		virtual void UpdatesetFrequency(Windows::Devices::Pwm::PwmController^ PwmController, double value);
 		virtual void setFrequency(double value);
 		virtual double getFrequency();
+
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
 	protected:
 
 #if !GPIOCLIENT_USING
@@ -191,19 +206,21 @@ namespace GPIODriver
 		void setTriggerPinNumber (int pinNo);
 		virtual bool doProcessing();
 		virtual bool setOutputToInitialValue();
-		virtual void OnValueChanged(LONGLONG TimeinYsec, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
+	//	virtual void OnValueChanged(LONGLONG TimeinYsec, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
 
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
 	
 	protected:
 		bool doMeasurement();
 
-		void setMeasuremenFinished(double MeasurementTime);
+	//	void setMeasuremenFinished(double MeasurementTime);
 
 	protected:
 		int m_TriggerPinNumber;
 		LONGLONG m_ActMeasTime;
-		static void OnValueHCSR04Changed(Windows::Devices::Gpio::GpioPin ^sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
-		HANDLE m_hFinishedEvent;
+//		static void OnValueHCSR04Changed(Windows::Devices::Gpio::GpioPin ^sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
+	//	HANDLE m_hFinishedEvent;
 
 #if !GPIOCLIENT_USING
 		Windows::Devices::Gpio::GpioPin^ m_TriggerPin;
@@ -243,7 +260,8 @@ namespace GPIODriver
 		virtual double getTemperature() { return m_temperature; };
 		virtual double getHumidity() { return m_humidity; };
 
-
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
 
 
 	protected:
@@ -252,6 +270,136 @@ namespace GPIODriver
 
 	};
 
+	class BME680Sensor :public GPIOPin {
+
+	protected:
+
+		double m_iaq;
+		int m_iaq_accuracy;
+		double  m_temperature;
+		double  m_humidity;
+		double  m_pressure;
+		double  m_raw_temperature;
+		double  m_raw_humidity;
+		double  m_gas;
+		int		m_bsec_status;
+		double  m_static_iaq;
+		double  m_co2_equivalent;
+		double  m_breath_voc_equivalent;
+
+	public:
+		BME680Sensor(GPIOEventPackageQueue* pGPIOEventPackageQueue, int PinNo, double InitPinValue);
+		virtual ~BME680Sensor();
+
+		//virtual Platform::String^ GetGPIOPinCmd();
+		//virtual Platform::String^ GetGPIOPinClientSendCmd();
+		virtual bool Init(Windows::Devices::Gpio::GpioController^ GPIOController);
+
+		virtual bool doProcessing();
+
+
+
+		virtual double getiaq() { return m_iaq; };
+		virtual int  getiaqaccuracy() { return m_iaq_accuracy; };
+		virtual double getPressure() { return m_pressure; };
+		virtual double getTemperature() { return m_temperature; };
+		virtual double getHumidity() { return m_humidity; };
+
+		virtual double getraw_temperature() { return m_raw_temperature; };
+		virtual double getraw_humidity() { return m_raw_humidity; };
+		virtual double getgas() { return m_gas; };
+		virtual int getbsec_status() { return m_bsec_status; };
+		virtual double getstatic_iaq() { return m_static_iaq; };
+		virtual double getco2_equivalent() { return m_co2_equivalent; };
+		virtual double getbreath_voc_equivalent() { return m_breath_voc_equivalent; };
+
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
+
+	protected:
+
+
+
+	};
+
+
+
+
+
+	class ADCMT3620 :public GPIOPin {
+
+	protected:
+
+
+	public:
+		ADCMT3620(GPIOEventPackageQueue* pGPIOEventPackageQueue, int PinNo, double InitPinValue);
+		virtual ~ADCMT3620();
+
+		//virtual Platform::String^ GetGPIOPinCmd();
+		//virtual Platform::String^ GetGPIOPinClientSendCmd();
+		virtual bool Init(Windows::Devices::Gpio::GpioController^ GPIOController);
+
+		virtual bool doProcessing();
+
+
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
+
+	protected:
+
+
+
+	};
+
+
+	typedef struct {
+		unsigned int m_fullCycleNs;
+		unsigned int m_dutyCycleNs;
+		unsigned int m_polarity;
+		bool m_enabled;
+
+	}UserPWMState;
+
+	typedef struct {
+		UserPWMState m_UserPWMState;
+
+	}PWMChannel;
+
+	class PWMMT3620 :public GPIOPin {
+
+	protected:
+
+		unsigned int m_ChannelNos;
+		PWMChannel* m_PWMChannels;
+
+
+	public:
+		PWMMT3620(GPIOEventPackageQueue* pGPIOEventPackageQueue, unsigned int PWMController, unsigned int channelNo, unsigned int Polarity, unsigned int fullCycleNs, unsigned int dutyCycleNs);
+		virtual ~PWMMT3620();
+
+		//virtual Platform::String^ GetGPIOPinCmd();
+		//virtual Platform::String^ GetGPIOPinClientSendCmd();
+		virtual bool Init(Windows::Devices::Gpio::GpioController^ GPIOController);
+
+		virtual bool doProcessing();
+
+		bool setfullCycleNs(unsigned int chan, unsigned int fullCycleNs);
+		unsigned int getfullCycleNs(unsigned int chan);
+		bool setdutyCycleNs( unsigned int chan, unsigned int dutyCycleNs);
+		unsigned int getdutyCycleNs( unsigned int chan);
+		bool setenable( unsigned int chan, bool enable);
+		bool getenable(unsigned int chan);
+		unsigned int PWMMT3620::getChannelNos();
+
+		virtual bool doPack(char* outbuf, size_t* outbuflen);
+		virtual bool doparse(mpack_reader_t* reader);
+
+
+	protected:
+
+
+
+	};
 }
 
 #endif

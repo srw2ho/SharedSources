@@ -25,60 +25,58 @@ namespace GPIODriver
 #endif
 		GPIOs m_GPIOs; // 
 
-//		Windows::ApplicationModel::AppService::AppServiceConnection^ m_connection;
 		bool m_bInitialized;
 		CRITICAL_SECTION m_CritLock;
 		GPIODriver::GPIOEventPackageQueue* m_pGPIOEventPackageQueue;
+		bool m_UseMpack;
     public:
 
 		virtual ~GPIOInOut();
+		void setUseMpack(bool value);
+		bool getUseMpack() { return m_UseMpack; };
+
 		bool InitGPIO();
 		bool ResetGPIOPins(); // OutPut to Inititial Values
-		bool DoProcessCommand(Platform::String^ command);
-		Platform::String^ GetGPIState();
-		Platform::String^ GetGPIStateByPinNr(int PinNr);
 
 
+		Windows::Storage::Streams::IBuffer^ GetGPIStateBuf();
 
-		Platform::String^ GetGPIClientSendState(); // Client State for Sending to GPIO Service
+		Windows::Storage::Streams::IBuffer^ GetGPIClientSendStateBuf();
+
 
 		void deleteAllGPIOPins();
 
 		void UnLock();
 		void Lock();
 
-//		event Windows::Foundation::TypedEventHandler<Platform::Object^, Platform::String^>^ InputStateChanged;
-
-//		event Windows::Foundation::TypedEventHandler<Platform::Object^, Platform::String^>^ OutputStateChanged;
-
-//		event Windows::Foundation::TypedEventHandler<Platform::Object^, Platform::String^>^ InputHCSR04StateChanged;
-
 		event Windows::Foundation::TypedEventHandler<Platform::Object^, int >^ CreateBME280External;
 
 	internal:
 		GPIOInOut(GPIODriver::GPIOEventPackageQueue* pGPIOEventPackageQueue);
 		GPIOPin* getGPIOPinByPinNr(int Idx);
+		GPIOPin* getGPIOPinByPinNrandType(GPIODriver::GPIOTyp type, int Idx);
 		bool addGPIOPin(GPIOPin*pin);
 		bool delGPIOPin(GPIOPin*pin);
 		bool GetGPIPinsByTyp(GPIOs & gPIOs, GPIODriver::GPIOTyp typ);
 
+
+
+		bool parse_mpackObjects(std::vector<byte>& arr);
+		bool DoProcessCommand(Platform::String^ command);
+
 	private:
 		bool DoParseCommand(const std::wstring  command);
-
+		bool parse_mpegandgetObject(mpack_reader_t* reader);
 
 		GPIOPin* InitGPIOPin(int PinNo, int TriggerPin, GPIODriver::GPIOTyp Typ, double SetValue,  double Pulsetime, double frequency);
 		bool DoProcessGPIOCommand();
-		/*
-		void OnValueInputChanged(Windows::Devices::Gpio::GpioPin ^sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
-		void OnValueOutputChanged(Windows::Devices::Gpio::GpioPin ^sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
-
-		void OnValueHCSR04Changed(Windows::Devices::Gpio::GpioPin ^sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^args);
+		Platform::String^ GetGPIClientSendState(); // Client State for Sending to GPIO Service
+		Platform::String^ GetGPIState();
+		Platform::String^ GetGPIStateByPinNr(int PinNr);
 
 
-		bool setPinValue(GPIOPin* pin);
-		*/
-
-//		void OnValueInputChanged(Windows::Devices::Gpio::GpioPin ^ sender, Windows::Devices::Gpio::GpioPinValueChangedEventArgs ^ args);
-		//Platform::String^ GetGPIState();
+		bool GetGPIMsgPackState(std::vector<char>& retdata);
+		std::vector<char> GetGPIMsgPackStateByPinNr(int PinNr);
+		bool GetGPIClientMsPackSendState(std::vector<char>& retdata);
 	};
 }

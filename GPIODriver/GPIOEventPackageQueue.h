@@ -16,15 +16,21 @@ namespace GPIODriver
 
 	private:
 		int				 m_PinNo;
-		Platform::String^ m_EventMsg;
+	//	Platform::String^ m_EventMsg;
 		void*			m_pAdditional; // Additional Information
+		Windows::Storage::Streams::IBuffer^ m_buf;
 	public:
 		GPIOEventPackage(void);
-		GPIOEventPackage(int PinNo, Platform::String^ eventMessage, void* Additional=nullptr);
+		//GPIOEventPackage(int PinNo, Platform::String^ eventMessage, void* Additional=nullptr);
+		GPIOEventPackage(int PinNo, void* Additional = nullptr);
 		virtual ~GPIOEventPackage();
 		int getPinNo();
-		Platform::String^ getEventMsg();
+		Windows::Storage::Streams::IBuffer^ getEventBuffer();
+		void setEventBuffer(Windows::Storage::Streams::IBuffer^buf);
+	//	Platform::String^ getEventMsg();
 		void* getAdditional();
+
+	
 
 	};
 
@@ -36,13 +42,15 @@ namespace GPIODriver
 
 		std::vector<GPIOEventPackage*>* m_packetQueue;
 		CRITICAL_SECTION m_CritLock;
-
+		bool m_UseMpack;
 	public:
 
 		GPIOEventPackageQueue(void);
 		virtual ~GPIOEventPackageQueue();
 
 		virtual void cancelwaitForPacket();
+		void setUseMpack(bool value) { m_UseMpack = value; };
+		bool getUseMpack() { return m_UseMpack; };
 
 		virtual void Flush();
 		virtual void PushPacket(GPIOEventPackage* ppacket);
@@ -53,6 +61,8 @@ namespace GPIODriver
 		void Lock();
 
 		void UnLock();
+
+
 	};
 
 }
