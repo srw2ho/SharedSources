@@ -1,0 +1,6 @@
+﻿     Creating library C:\Users\wilsc\source\repos\srw2ho\GPIODashboard\Release\GPIOServiceConnector\GPIOServiceConnector.lib and object C:\Users\wilsc\source\repos\srw2ho\GPIODashboard\Release\GPIOServiceConnector\GPIOServiceConnector.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 3924 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  GPIOServiceConnector.vcxproj -> C:\Users\wilsc\source\repos\srw2ho\GPIODashboard\Release\GPIOServiceConnector\GPIOServiceConnector.dll
