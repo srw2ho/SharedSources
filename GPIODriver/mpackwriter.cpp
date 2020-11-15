@@ -49,13 +49,16 @@ namespace GPIODriver
 
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
-			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		memcpy(outbuf, data, datasize);
 
 		*(outbuflen) = datasize;
+
+		if (data) MPACK_FREE(data);
+
 		UnLock();
 		return true;
 
@@ -86,11 +89,14 @@ namespace GPIODriver
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
 			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		*outbuflen = GPIOPinbuflen + size;
 		memcpy(&outbuf[GPIOPinbuflen], data, size);
+
+		if (data) MPACK_FREE(data);
 
 		UnLock();
 		return true;
@@ -122,12 +128,14 @@ namespace GPIODriver
 
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
-			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		*outbuflen = GPIOPinbuflen + size;
 		memcpy(&outbuf[GPIOPinbuflen], data, size);
+
+		if (data) MPACK_FREE(data);
 
 		UnLock();
 		return true;
@@ -160,12 +168,14 @@ namespace GPIODriver
 
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
-			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		*outbuflen = GPIOPinbuflen + size;
 		memcpy(&outbuf[GPIOPinbuflen], data, size);
+
+		if (data) MPACK_FREE(data);
 
 		UnLock();
 		return true;
@@ -209,12 +219,14 @@ namespace GPIODriver
 
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
-			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		*outbuflen = GPIOPinbuflen + size;
 		memcpy(&outbuf[GPIOPinbuflen], data, size);
+
+		if (data) MPACK_FREE(data);
 
 		UnLock();
 		return true;
@@ -238,17 +250,6 @@ namespace GPIODriver
 
 		size = 0;
 
-		//mpack_writer_init_growable(&writer, &data, &size);
-		//// doing
-
-
-
-		//// finish writing
-		//if (mpack_writer_destroy(&writer) != mpack_ok) {
-		//	//    fprintf(stderr, "An error occurred encoding the data!\n");
-		//	UnLock();
-		//	return false;
-		//}
 
 		*outbuflen = GPIOPinbuflen + size;
 	//	memcpy(&outbuf[GPIOPinbuflen], data, size);
@@ -295,12 +296,14 @@ namespace GPIODriver
 
 		// finish writing
 		if (mpack_writer_destroy(&writer) != mpack_ok) {
-			//    fprintf(stderr, "An error occurred encoding the data!\n");
+			if (data) MPACK_FREE(data);
 			UnLock();
 			return false;
 		}
 		*outbuflen = GPIOPinbuflen + size;
 		memcpy(&outbuf[GPIOPinbuflen], data, size);
+
+		if (data) MPACK_FREE(data);
 
 		UnLock();
 		return true;
