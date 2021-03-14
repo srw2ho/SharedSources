@@ -34,7 +34,7 @@ GPIOConnector::GPIOConnector()
 
 	//  m_pBME280DataQueue = new WeatherStationData::BME280DataQueue();
 
-	this->m_GPIOClientInOut->setUseMpack(true);
+	this->m_GPIOClientInOut->setUseMpack(false);
 
 	m_bProcessingPackagesStarted = false;
 
@@ -73,6 +73,17 @@ GPIOConnector::~GPIOConnector()
 
 
 }
+
+bool GPIOConnector::UseMsgPack::get() {
+	return this->m_GPIOClientInOut->getUseMpack();
+
+}
+
+void GPIOConnector::UseMsgPack::set (bool value){
+	 this->m_GPIOClientInOut->setUseMpack(value);
+
+}
+
 
 void GPIOConnector::HostName::set(Platform::String ^ value) {
 	m_HostName = value;

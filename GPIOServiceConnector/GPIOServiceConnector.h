@@ -46,6 +46,12 @@ namespace GPIOServiceConnector
 		Windows::Foundation::IAsyncAction ^ startProcessingPackagesAsync(Windows::Foundation::Collections::IPropertySet^ inputconfigoptions, Windows::Foundation::Collections::IPropertySet^ outputconfigoptions);
 		Windows::Foundation::IAsyncAction ^ stopProcessingPackagesAsync();
 
+		// Using  of MSGPack yes not
+		property bool UseMsgPack {
+			bool get();
+			void set(bool value);
+		}
+
 
 		property Platform::String ^ HostName {
 			Platform::String ^  get() { return m_HostName; };
