@@ -1,0 +1,10 @@
+﻿  pch.cpp
+  bme280.c
+  dllmain.cpp
+  BME280Driver.cpp
+     Creating library C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Release\BME280Driver\BME280Driver.lib and object C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Release\BME280Driver\BME280Driver.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 60 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  BME280Driver.vcxproj -> C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Release\BME280Driver\BME280Driver.dll

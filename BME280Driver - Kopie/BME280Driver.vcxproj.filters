@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BME280Driver.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="bme280.c" />
+    <ClCompile Include="BME280IoTDriverWrapper.cpp" />
+    <ClCompile Include="BME280SensorExternal.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BME280Driver.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="bme280.h" />
+    <ClInclude Include="bme280_defs.h" />
+    <ClInclude Include="BME280DriverExports.h" />
+    <ClInclude Include="BME280IoTDriverWrapper.h" />
+    <ClInclude Include="BME280SensorExternal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

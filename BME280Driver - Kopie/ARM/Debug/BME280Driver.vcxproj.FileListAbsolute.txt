@@ -1,0 +1,16 @@
+D:\source\repos\srw2ho\GPIOServices\ARM\Debug\BME280Driver\BME280Driver.pri
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\priconfig.xml
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\priconfig.xml.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\unfiltered.layout.resfiles
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\unfiltered.layout.resfiles.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\filtered.layout.resfiles
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\filtered.layout.resfiles.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\excluded.layout.resfiles
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\excluded.layout.resfiles.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\resources.resfiles
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\resources.resfiles.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\pri.resfiles
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\pri.resfiles.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\qualifiers.txt
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\qualifiers.txt.intermediate
+D:\source\repos\srw2ho\SharedSources\BME280Driver\ARM\Debug\MultipleQualifiersPerDimensionFound.txt

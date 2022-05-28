@@ -22,9 +22,9 @@ namespace BME280Driver
 	public:
 		BME280IoTDriver(uint8_t dev_id);
 		virtual ~BME280IoTDriver();
-		void setReadFkt(bme280_com_fptr_t readFkt) { m_readFkt = readFkt; };
-		void setWriteFkt(bme280_com_fptr_t writeFkt) { m_writeFkt = writeFkt; };
-		void setDelayFkt(bme280_delay_fptr_t delayFkt) { m_delay_ms = delayFkt; };
+		void setReadFkt(bme280_com_fptr_t readFkt); 
+		void setWriteFkt(bme280_com_fptr_t writeFkt); 
+		void setDelayFkt(bme280_delay_fptr_t delayFkt); 
 
 		int Initialization(); // setReadFkt,setWriteFkt must be set before Initialization can called
 		int setForceModeSettings();
@@ -36,8 +36,8 @@ namespace BME280Driver
 		double getTemperature();	// into C
 		double getTemperatureFahrenheit(); // into Fahrenheit
 		double getHumidity();		// into %
-		int8_t getDeviceId() { return m_dev.dev_id; };
-		void setDeviceId(int8_t addr) {	m_dev.dev_id = addr;};
+		int8_t getDeviceId() ;
+		void setDeviceId(int8_t addr) ;
 		int8_t stream_sensor_data_normal_mode();
 		int8_t stream_sensor_data_forced_mode();
 

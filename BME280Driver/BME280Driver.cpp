@@ -102,8 +102,11 @@ int8_t BME280IoTDriver::stream_sensor_data_normal_mode()
 BME280IoTDriver::BME280IoTDriver(uint8_t dev_id)
 {
 
-	memset(&m_comp_data, 0, sizeof(m_comp_data));
-	memset(&m_dev, 0, sizeof(m_dev));
+	memset(&m_comp_data, 0, sizeof(bme280_data));
+	memset(&m_dev, 0, sizeof(bme280_dev));
+	m_dev.read = nullptr;
+	m_dev.write = nullptr;
+	m_dev.delay_ms = nullptr;
 	m_dev.dev_id = dev_id;
 	m_readFkt =nullptr;
 	m_writeFkt = nullptr;
@@ -256,6 +259,31 @@ int BME280IoTDriver::setNormalModeSettings()
 	return rslt;
 
 }
+
+void BME280IoTDriver::setReadFkt(bme280_com_fptr_t readFkt)
+{
+	m_readFkt = readFkt;
+};
+
+void BME280IoTDriver::setWriteFkt(bme280_com_fptr_t writeFkt)
+{ 
+	m_writeFkt = writeFkt; 
+
+};
+
+void BME280IoTDriver::setDelayFkt(bme280_delay_fptr_t delayFkt) 
+{ 
+	m_delay_ms = delayFkt; 
+};
+
+
+int8_t BME280IoTDriver::getDeviceId() {
+	return m_dev.dev_id; 
+};
+
+void BME280IoTDriver::setDeviceId(int8_t addr) {
+	m_dev.dev_id = addr; 
+};
 
 int BME280IoTDriver::Initialization() {
 

@@ -1,0 +1,5 @@
+﻿  bme280.c
+  dllmain.cpp
+  BME280Driver.cpp
+     Creating library C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Debug\BME280Driver\BME280Driver.lib and object C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Debug\BME280Driver\BME280Driver.exp
+  BME280Driver.vcxproj -> C:\Users\wilsc\source\repos\srw2ho\GPIOServices\x64\Debug\BME280Driver\BME280Driver.dll
